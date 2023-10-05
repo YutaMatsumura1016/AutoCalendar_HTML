@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  href="{% static 'css/index.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" type="image/png" href="{% static 'AutoCalApp/icon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" type="image/png" href="{% static 'AutoCalApp/icon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" type="image/png" href="{% static 'AutoCalApp/icon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'AutoCalApp/icon/site.webmanifest' %}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>予定自動入力</title>
+</head>
+<body>
+    <div class="container">
+        <h1>予定自動登録</h1>
+        <ul>
+            <li>上段に登録したいアカウントのメールアドレスを入力してください</li>
+            <li>下段に1行に1つずつ予定を入力してください。</li>
+            <li>予定が書かれていない行があっても問題ありません。</li>
+            <li>時間には対応していません。</li>
+            <li>すべて今年の予定として認識されます。</li>
+            <li>「送信」ボタンを押すと、Googleカレンダーに登録されます。</li>
+        </ul>
+
+        <form method="POST" action="{% url 'formView' %}">
+            {% csrf_token %}
+            <input type="email" class="input_id" name="input_id" placeholder="Gmailアドレス">
+            <input type="text" class="input_data" name="input_data" placeholder="予定">
+            <button type="submit", class="submit_button">送信</button>
+        </form>
+        
+    </div>
+
+
+</body>
+</html>

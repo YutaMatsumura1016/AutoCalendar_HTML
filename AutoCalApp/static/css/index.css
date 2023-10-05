@@ -1,0 +1,64 @@
+/* 全体 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/* 入力部分 */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+}
+
+/* 説明文 */
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* 入力フォーム */
+.input_id {
+    width: 96%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 10px;
+}
+.input_data {
+    width: 96%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 180px;
+}
+
+/* 決定ボタン */
+.submit_button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4cb2bf;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 決定ボタンホバー時 */
+.submit_button:hover {
+    background-color: #0e8487;
+}

@@ -1,0 +1,46 @@
+/* 全体 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/* 入力部分 */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+}
+
+/* 結果文 */
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* 戻るボタン */
+.return-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #b369b7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 戻るボタンホバー時 */
+.submit-button:hover {
+    background-color: #70297c;
+}
