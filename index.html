@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  href="/pages/css/index.css">
+    <link rel="stylesheet"  href="/css/index.css">
     <link rel="apple-touch-icon" sizes="180x180" type="image/png" href="/icon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" type="image/png" href="/icon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" type="image/png" href="/icon/favicon-16x16.png">
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css">
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <link rel="manifest" href="/icon/site.webmanifest">
+    <script src="/js/main.js"></script>
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <title>予定自動入力</title>
@@ -29,7 +28,7 @@
         <form>
             <input type="email" class="input_id" id="input_id" name="input_id" placeholder="Gmailアドレス">
             <input type="text" class="input_data" id="input_data" name="input_data" placeholder="予定">
-            <button type="submit", class="submit_button">送信</button>
+            <button onclick="yoteiAuto()" class="submit_button">送信</button>
         </form>
     </div>
 </body>
