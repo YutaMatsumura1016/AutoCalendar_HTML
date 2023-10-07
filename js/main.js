@@ -9,17 +9,19 @@ function zenhan(yotei) {
 
 //空白撲滅
 function kuhaku(yotei_han){
-  while(yotei_han != ""){
+  var i = 0;
+  while(i<yotei_han.length){
     if(yotei_han != ""){
-      if(yotei_han.charAt(0) == " "){
-        yotei_han = yotei_han.slice(1);
-      }else{
-        return yotei_han;
+      if(yotei_han[0] == " "){
+        yotei_han = yotei_han.trimStart()
       }
+    return yotei_han;
     }
+    i++;
   }
 }
 
+//本体
 function hizukeni(yotei_han_kuhaku){
   var yoteiList = [];
   var hizukeListm = [];
@@ -35,23 +37,22 @@ function hizukeni(yotei_han_kuhaku){
   //一文字ずつに分割
   while(i<yotei_han_kuhaku.length){
     yoteiList.push(yotei_han_kuhaku[i]);
-    console.log(yotei_han_kuhaku[i]);
     i++;
   }
 
   //分析
   while(t<yoteiList.length){
     //B月は入っていて、日はまだ(日を1桁入れるところまで)
-    if(hizukeListm.length>0 && hizukeListm.length<=2 && hizukeListd == []){
-      // print("B")
+    if(hizukeListm.length>0 && hizukeListm.length<=2 && hizukeListd.length == 0){
+      // console.log("B")
       //B1今回が/
       if(yoteiList[t] == "/" || yoteiList[t] == "月"){
         hizuke = "/";
       }
       //B2前回が数字
-      else if(isNaN(yoteiList[t-1])=="false"){
+      else if(!isNaN(yoteiList[t-1])){
         //B21今回も数字
-        if(isNaN(yoteiList[t])=="false"){
+        if(!isNaN(yoteiList[t])){
           hizukeListm.push(yoteiList[t]);
         }
         //B22今回は数字ではない
@@ -63,7 +64,7 @@ function hizukeni(yotei_han_kuhaku){
       //B3前回が/
       else if(hizuke == "/"){
         //B31今回は数字
-        if(isNaN(yoteiList[t])=="false"){
+        if(!isNaN(yoteiList[t])){
           hizukeListd.push(yoteiList[t]);
         }
         //B32今回は数字ではない
@@ -74,12 +75,12 @@ function hizukeni(yotei_han_kuhaku){
       }
     }
     //F日に,が入っていて、月の,が1個以下。または日の,が2個以上
-    else if((hizukeListd.includes(",") && ((hizukeListm.match(/,/g) || []).length<2)) || (hizukeListd.match(/,/g) || []).length>1){
-      // print("F")
+    else if(((hizukeListd.join("").includes(",")) && (hizukeListm.filter(x => x === ",").length<2)) || (hizukeListd.filter(x => x === ",").length > 1)){
+      // console.log("F")
       //F1今回が数字
-      if(isNaN(yoteiList[t])){
+      if(!isNaN(yoteiList[t])){
         //F11次も数字
-        if(isNaN(yoteiList[t+1])){
+        if(!isNaN(yoteiList[t+1])){
           hizukeListd.push(yoteiList[t]);
         }
         //F12次は数字ではない
@@ -93,10 +94,11 @@ function hizukeni(yotei_han_kuhaku){
       }
       //F2今回が区切り
       else if(yoteiList[t] == "." || yoteiList[t] == "," || yoteiList[t] == "~"){
+        // console.log(yoteiList[t])
         //F21次の桁が数字ではない
-        if(!(isNaN(yoteiList[t+1]))){
+        if(isNaN(parseInt(yoteiList[t+1]))){
           naiyouList = yoteiList.slice(t+1);
-          break
+          break;
         }
         //F22次の桁が数字
         //次かその次に月がある
@@ -108,12 +110,17 @@ function hizukeni(yotei_han_kuhaku){
           hizukeListd.push(",");
         }
       }
+      //F3入れ終わり
+      else if(isNaN(yoteiList[t])){
+        naiyouList = yoteiList.slice(t);
+        break;
+      }
     }
     //E月に,が入っている
     else if("," in hizukeListm){
-      // print("E")
+      // console.log("E")
       //E1今回が数字
-      if(isNaN(yoteiList[t])){
+      if(!isNaN(yoteiList[t])){
         hizukeListm.push(yoteiList[t]);
       }
       //E2今回が月
@@ -127,15 +134,15 @@ function hizukeni(yotei_han_kuhaku){
     }
     //C日が1桁入っている
     else if(hizukeListd.length == 1){
-      // print("C")
+      // console.log("C")
       //C1今回の桁も数字
-      if(isNaN(yoteiList[t])){
+      if(!isNaN(yoteiList[t])){
         hizukeListd.push(yoteiList[t]);
       }
       //C2今回の桁は区切り
       else if(yoteiList[t] == "." || yoteiList[t] == "," || yoteiList[t] == "~"){
         //C21次の桁が数字ではない
-        if(!(isNaN(yoteiList[t+1]))){
+        if(isNaN(parseInt(yoteiList[t+1]))){
           naiyouList = yoteiList.slice(t);
           break;
         }
@@ -157,7 +164,7 @@ function hizukeni(yotei_han_kuhaku){
     }
     //D日付が2桁入っている
     else if(hizukeListd.length==2){
-      // print("D")
+      // console.log("D")
       //D1今回の桁が区切りでない
       if (!(yoteiList[t] == "." || yoteiList[t] == "," || yoteiList[t] == "~")){
         naiyouList = yoteiList.slice(t);
@@ -166,7 +173,7 @@ function hizukeni(yotei_han_kuhaku){
       //D2今回の桁が区切り
       else if(yoteiList[t] == "." || yoteiList[t] == "," || yoteiList[t] == "~"){
         //D21次の桁が数字ではない
-        if(!(isNaN(yoteiList[t+1]))){
+        if(isNaN(parseInt(yoteiList[t+1]))){
           naiyouList = yoteiList.slice(t+1);
           break;
         }
@@ -183,11 +190,14 @@ function hizukeni(yotei_han_kuhaku){
     }
                 
     //A何も入っていない
-    else if(isNaN(yoteiList[t])){
-      // print("A")
+    else if(!isNaN(yoteiList[t])){
+      // console.log("A");
       hizukeListm.push(yoteiList[t]);
     }
-    t+=1
+    else{
+      // console.log("else");
+    }
+    t++;
   }
 
   //月の数を合わせる
@@ -199,21 +209,21 @@ function hizukeni(yotei_han_kuhaku){
 
   while(c<hizukeListm.length){
     if(hizukeListm[c] == ","){
-      d+=1;
+      d++;
     }
-    c+=1;
+    c++;
   }
   while(e<hizukeListd.length){
     if(hizukeListd[e] == ","){
-      f+=1;
+      f++;
     }
-    e+=1;
+    e++;
   }
   if(d<f){
     t=0;
     while(t<hizukeListm.length){
       m=m+hizukeListm[t];
-      t+=1;
+      t++;
     }
     i=0;
     while(i<f){
@@ -231,21 +241,60 @@ function hizukeni(yotei_han_kuhaku){
   var t = 0;
   while(t<hizukeListd.length){
     hizuked = hizuked + hizukeListd[t];
-    t+=1;
+    t++;
   }
   //先頭空白削除
   if(naiyouList != []){
     if(naiyouList[0] == " "){
-      naiyouList.pop(0);
+      naiyouList = naiyouList.trimStart();
     }
     var w = 0
     while(w<naiyouList.length){
       naiyou = naiyou + naiyouList[w];
-      w+=1;
+      w++;
     }
   }
+
   var retArr = [hizukem, hizuked, naiyou];
   return retArr;
+}
+
+//曜日削除
+function youbiDel(naiyou){
+  var youbiArray = ["月","火","水","木","金","土","日"];
+  while(true){
+    if(naiyou[0] == "("){
+      if(youbiArray.includes(naiyou[1])){
+        var i=0;
+        while(i<naiyou.length){
+          if(naiyou[i] == ")"){
+            naiyou = naiyou.slice(i+1);
+            break;
+          }
+          i++;
+        }
+      }
+    }
+    else if(youbiArray.includes[0]){
+      if(naiyou[1] == "曜"){
+        if(naiyou[2] == "日"){
+          naiyou = naiyou.slice(3);
+        }
+        else{
+          naiyou = naiyou.slice(2);
+        }
+      }
+      else{
+        naiyou = naiyou.slice(1);
+      }
+    }
+    else if(naiyou[0] == "," || naiyou[0] == "." || naiyou[0] == "~"){
+      naiyou = naiyou.slice(1);
+    }
+    else{
+      return(naiyou);
+    }
+  }
 }
 
 //main
@@ -256,14 +305,14 @@ function yoteiAuto() {
   var schedule = `【今後のスケジュール】
 
   今後の祭り
-  ７／２９(土)遠藤さん結婚式
+  7/29(土)遠藤さん結婚式
   7/30(日)上矢部
   8/5(土)東小
-  8719(土)永田台小
+  8/19(土)永田台小
   8/26.27(土.日)どまつり
   9/9(土)センター南祭り
   9/10(日)センター南祭り予備日
-  9/17(日)相模原RANBU
+  9717(日)相模原RANBU
   9/24(日)AQUA祭り
   10/1(日)ちばよさ
   10/21.22(土.日)横よさ
@@ -295,37 +344,34 @@ function yoteiAuto() {
 
   // 予定の追加
   var scheduleList = schedule.split(/\n/);
-  // console.log(scheduleList);
 
   try{
     //内容取得
     while(i<scheduleList.length){
       //整形
       var yotei = scheduleList[i];
-      var yotei_han = zenhan(yotei);
-      var yotei_han_kuhaku = kuhaku(yotei_han)
-      //内容取得
-      if(yotei_han_kuhaku != ""){
-        var hizukeniRe = hizukeni(yotei_han_kuhaku);
-        // var hizukem = hizukeniRe[0];
-        // var hizuked = hizukeniRe[1];
-        // var naiyou = hizukeniRe[2];
-        // if(naiyou != ""){
-        //   naiyou = youbiDel.youbiDel(naiyou);
-        //   yoteimList.push(hizukem);
-        //   yoteidList.push(hizuked);
-        //   naiyouList.push(naiyou);
-
-        //   console.log(hizukem);
-        //   console.log(hizuked);
-        //   console.log(naiyou);
-        // }
+      yotei_kuhaku = kuhaku(yotei);
+      if(yotei!=""){
+        var yotei_han_kuhaku = zenhan(yotei_kuhaku);
+        //内容取得
+        if(yotei_han_kuhaku != ""){
+          var hizukeniRe = hizukeni(yotei_han_kuhaku);
+          var hizukem = hizukeniRe[0];
+          var hizuked = hizukeniRe[1];
+          var naiyou = hizukeniRe[2];
+          if(naiyou != ""){
+            naiyou = youbiDel(naiyou);
+            console.log(naiyou)
+            yoteimList.push(hizukem);
+            yoteidList.push(hizuked);
+            naiyouList.push(naiyou);
+          }
+        }
       }
-        // console.log(yotei_han_kuhaku)
-        i+=1
+      i++;
     }
   
-  } catch{
+  } catch {
     return("予定の取得中にエラーが発生しました。");
   }
 
